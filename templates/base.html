@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>
+	{% block tittle  %}
+		Lobby de Vacas y toros
+	{% endblock  %}
+	</title>
+	
+<style>
+.btn-group{
+	margin: 10px 10px;
+}
+.btn{
+	text-decoration: none;
+	border: 1px solid gray;
+	border-radius: 2px;
+	color: black;
+	padding: 2px 5px;
+	background-color: aquamarine;
+}
+
+.form{
+	text-align: center;
+	padding-top: 20px;
+}
+
+.colum1{
+	float:left;
+}
+
+.colum2{
+	float:right;
+}
+
+.colum3{ 
+	display: inline-block;	
+}
+
+.color-box{
+	margin:5px 5px;
+	border: 1px solid black;
+	width:20px;
+	height: 20px;
+	color: white;
+	border-radius: 5px;
+}
+
+</style>
+
+</head>
+<body>
+	{% block content %}
+	<div class="form">
+		<h1>4 Colors Game</h1>
+		<form action="" method="Post">
+		<input style= "margin: 5px auto;"type="text" placeholder="Name">
+		<div class="btn-group">
+			<a class="btn" href="{% url 'create' %}">Create Game</a>
+			<a class="btn" href="{% url 'join' %}">Join Game</a>
+		</div>
+	</div>
+	</form>
+	{% endblock  %}
+	
+
+</body>
+</html>
