@@ -7,8 +7,18 @@
 <div class="form">
 	<h1>CREATE GAME</h1>
 	<br>
-	<h1>ID:4536373{{game_id}}</h1>
+	<h1>ID:{{game_id}}</h1>
 	<div class="create-form">
 	<p>Shere whit your friends</p>
+	{{game_id|json_script:"game_id"}}
 </div>
+
+<script>
+	const game_id = JSON.parse(document.getElementById('game_id').textContent);
+
+	const gameSocket = new Websocket(
+		'ws://')
+	// Aqui debe recibir un evento que lo lleve a la pagina de running game
+
+</script>
 {% endblock %}
