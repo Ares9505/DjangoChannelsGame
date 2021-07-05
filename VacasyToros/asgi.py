@@ -10,13 +10,20 @@ https://docs.djangoproject.com/en/3.2/howto/deployment/asgi/
 import os
 
 from django.core.asgi import get_asgi_application
+#Channels
 from channels.routing import ProtocolTypeRouter,URLRouter
 from channels.auth import AuthMiddlewareStack
+import game.routing
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'VacasyToros.settings')
 
 application = ProtocolTypeRouter({
-	"http" :
+	"http" : get_asgi_application(),
+	"websocket": AuthMiddlewareStack(
+			URLRouter(
+				game.routing.ws_urlpatterns
+			)
+		),
 	})
 
-get_asgi_application()
+

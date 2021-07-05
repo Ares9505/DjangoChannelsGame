@@ -63,14 +63,20 @@
 		</div>
 	</div>
 	</form>
+	<p id="game-id" hidden>{{game_id}}</p>
 	<script>
 		document.querySelector('#name-input').focus();
+
+
 		document.querySelector('#btn-create').onclick=function(e){
 			var Name = document.querySelector('#name-input').value;
-			window.location.pathname = '/game/create/'+ Name +'/';
+			var game_id= document.getElementById('game-id').innerHTML;
+			window.location.pathname = '/game/create/'+ Name +'/' + game_id +'/';
 		};
+
 		document.querySelector('#btn-join').onclick=function(e){
-			window.location.pathname = '/game/join/';
+			var Name = document.querySelector('#name-input').value;
+			window.location.pathname = '/game/join/'+ Name + '/';
 		};
 
 

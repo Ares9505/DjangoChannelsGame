@@ -8,4 +8,4 @@ class Game(models.Model):
 
 
 	def __str__(self):
-		return self.game_id
+		return str(self.game_id)

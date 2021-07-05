@@ -16,8 +16,16 @@
 <script>
 	const game_id = JSON.parse(document.getElementById('game_id').textContent);
 
-	const gameSocket = new Websocket(
-		'ws://')
+	// Aqui se crea la conexion Websocket desde el cliente
+	const gameSocket= new WebSocket(
+		'ws://'
+		+ window.location.host
+		+ '/ws/game/'
+		+ game_id
+		+'/'
+		);
+
+
 	// Aqui debe recibir un evento que lo lleve a la pagina de running game
 
 </script>
