@@ -4,4 +4,5 @@ from .import consumers
 ws_urlpatterns=[
 	re_path(r'ws/game/(?P<game_id>\w+)/$', consumers.GameConsumer.as_asgi())
 ]
+# Duda: websockets solo funciona para una sola direccion?
 

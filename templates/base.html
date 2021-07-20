@@ -23,30 +23,52 @@
 }
 
 .form{
+	display: inline-block;
 	text-align: center;
 	padding-top: 20px;
 }
 
-.colum1{
-	float:left;
+.secuence-form{
+	display: inline-block;
+	width:40%;
+
 }
 
-.colum2{
-	float:right;
-}
-
-.colum3{ 
-	display: inline-block;	
-}
-
-.color-box{
-	margin:5px 5px;
-	border: 1px solid black;
-	width:20px;
-	height: 20px;
-	color: white;
+#color-selection{
+	width: 40%;
+	border: 1px solid gray;
 	border-radius: 5px;
 }
+
+.color-sequence{
+	width: 40%;
+	border: 1px solid gray;
+	border-radius: 5px;
+}
+
+
+.color-box{
+	display: inline-block;
+	border: 1px solid black;
+	margin: 10px; 
+	width:30px;
+	height: 30px;
+	border-radius: 5px;
+}
+
+.opponent-table{
+	float: right;
+}
+
+.my-table{
+	float: left;
+}
+
+h2{
+	padding: 0;
+	margin: 0;
+}
+
 
 </style>
 
@@ -63,7 +85,11 @@
 		</div>
 	</div>
 	</form>
+
+	<input type="buton" value="Test" onclick="SendColorSelection">
+
 	<p id="game-id" hidden>{{game_id}}</p>
+
 	<script>
 		document.querySelector('#name-input').focus();
 
@@ -71,12 +97,12 @@
 		document.querySelector('#btn-create').onclick=function(e){
 			var Name = document.querySelector('#name-input').value;
 			var game_id= document.getElementById('game-id').innerHTML;
-			window.location.pathname = '/game/create/'+ Name +'/' + game_id +'/'  +'home';
+			window.location.pathname = '/game/create/'+ Name +'/' + game_id ;
 		};
 
 		document.querySelector('#btn-join').onclick=function(e){
 			var Name = document.querySelector('#name-input').value;
-			window.location.pathname = '/game/join/'+ Name + '/';
+			window.location.pathname = '/game/join/'+ Name + '/' ;
 		};
 
 

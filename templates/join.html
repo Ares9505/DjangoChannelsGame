@@ -6,17 +6,27 @@
 {% block content %}
 <div class="form">
 	<h1>JOIN GAME</h1>
-	<form action="">
-		<input type="text" placeholder="game id">
+	<form action="" method="POST">
+		{% csrf_token %}
+		<input name="game_id" id="game-id-input" type="text" placeholder="game id">
+		<div class="btn-group">
+			<input class="btn" type="button" value="Back">
+			<input id="btn-back" class="btn" type="submit" value="Next">
+		</div>
 	</form>
-	<div class="btn-group" >
-		<a class="btn" href="{% url 'home' %}">Back</a>
-		<a class="btn" href="{% url  'running' %}">Next</a>
-	</div>
-	
+	{% if novalid %}
+		<p>El id introducido es erróneo</p>
+	{% endif %}
+{% comment %}
+	Agregar aqui funcionalidad del id no validos
+{% endcomment %}
+
 </div>
 <script>
-	
+
+	document.querySelector('#btn-back').onclick=function(e){		
+			window.location.pathname = '/game/';
+		};
 
 
 </script>

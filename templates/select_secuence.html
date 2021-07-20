@@ -1,15 +1,30 @@
-{% extends "base.html" %}
-{% block title  %}
-	Create Game
-{% endblock  %}
+<div class="sequence-form">
+	<h1>Color selection</h1>
 
-{% block blockname %}
-<div class="form">
-	<h1>ID:{{game_id}}</h1>
-	<div class="create-form">
-	<form action="" >
-		<input type="submit" value="">
-	</form>
+	
+	<div id="color-selection">
+		<h2>Click on to select a color</h2>
+		<div data-index="0" class="color-box pick-box" style="background-color:red"></div>
+		<div data-index="1" class="color-box pick-box" style="background-color: orange"></div>
+		<div data-index="2" class="color-box pick-box" style="background-color:blue;"></div>
+		<div data-index="3" class="color-box pick-box" style="background-color:aquamarine"></div><br>
+		<div data-index="4" class="color-box pick-box" style="background-color:pink;"></div>
+		<div data-index="5" class="color-box pick-box" style="background-color:yellow;"></div>
+		<div data-index="6" class="color-box pick-box" style="background-color:green"></div>
+		<div data-index="7" class="color-box pick-box" style="background-color:black"></div>
 	</div>
+		
+		<div class="color-sequence">
+		<h1>Selected sequence</h1>
+
+			<div data-index="1" class="color-box color-select"></div>
+			<div data-index="2" class="color-box color-select"></div>
+			<div data-index="3" class="color-box color-select"></div>
+			<div data-index="4" class="color-box color-select"></div>
+
+			<input id="clear-colors-button"class="btn" type="button" value="Clear" onclick="reset();">
+			<input id="send-colors-button"class="btn" type="button" value="Next">
+			<p id="send-color-validation" style="color: red;"></p>
+		</div>	
 </div>
-{% endblock blockname %}
+
