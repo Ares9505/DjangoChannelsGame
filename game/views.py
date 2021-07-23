@@ -19,9 +19,6 @@ def Create_game(request,player,game_id):
 			game.save()		
 		return render(request, 'create.html',{"game_id": game_id})
 
-	if request.method == "POST":
-		# Place here a select secuence reacction
-		pass
 
 
 def Join_game(request,player):

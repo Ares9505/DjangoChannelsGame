@@ -13,30 +13,58 @@
 			</div>
 		</div>
 
+		<div id="mytabla" class="running-game" style="display: none;">
+			<div class="my-table">
+				<table >
+					<thead>
+						<tr>
+							<th colspan="4">Your History</th>
+							<th>Cows</th>
+							<th>Bulls</th>
+						</tr>
+					</thead>
+					<tbody id="my-tbody">
+
+					</tbody>
+				</table>
+			</div>
+		</div>
+
 
 		<div id="sequence-selection" style="display: none">
 		{% include "select_secuence.html" %}
 		</div>
 
+		<div id="histable" class="running-game" style="display: none;">
+			<div class="opponent-table">
+				<table >
+					<thead>
+						<tr>
+							<th colspan="4">Oponent's History</th>
+							<th>Cows</th>
+							<th>Bulls</th>
+						</tr>
+					</thead>
+					<tbody id="opponent-tbody">
 
-		<div id="running-game" style="display: none;">
-		{% include "running_game.html" %}
+					</tbody>
+				</table>
+			</div>
 		</div>
-
-	<p id="prueba"></p>
-
 
 <script>
 
 const game_id = "{{game_id}}"; 
 const gameReady= window.location.search;//get the parameter from the url, this will be ?twoplayers if you join and "" if you create the game
 let player="";
-
+let tabla = document.getElementsByClassName('running-game');
 
 //Estas son vista forzadas para probar un juego ya creado
 // document.getElementById('create-info').style.display="none";
-// document.getElementById('sequence-selection').style.display="block";
-// document.getElementById('running-game').style.display="block";
+// document.getElementById('sequence-selection').style.display="inline-block";
+
+// tabla[0].style.display="inline-block";
+// tabla[1].style.display="inline-block";
 
 
 // Creation of websocket from client
@@ -68,7 +96,7 @@ gameSocket.onmessage=function (e){
 		if ( payload["message"] == "?twoplayers")
 		{
 			document.getElementById('create-info').style.display="none";
-			document.getElementById('sequence-selection').style.display="block";
+			document.getElementById('sequence-selection').style.display="inline-block";
 		};
 	};
 	
@@ -77,7 +105,8 @@ gameSocket.onmessage=function (e){
 	// When 2 player send the secuence change the view to running game cause payload["message"] will by true
 	if(payload["event"] == "ColorSelection"){
 		if(payload["message"] == "True"){
-			document.getElementById('running-game').style.display="block";
+			tabla[0].style.display="inline-block";
+			tabla[1].style.display="inline-block";
 			document.querySelector('#send-color-validation').innerHTML="";
 		}
 
@@ -93,7 +122,6 @@ gameSocket.onmessage=function (e){
 		playerGuessing  = payload["message"]["playerName"];
 		playerNumber	= payload["message"]["player"];
 		tbodyOption=( playerNumber == player )? tbodyOption=document.getElementById("my-tbody") : tbodyOption=document.getElementById("opponent-tbody");
-		console.log(tbodyOption);
 		addColum(secuence,cows,bulls,tbodyOption);
 		checkWinner(bulls,playerGuessing);
 	}			
@@ -135,7 +163,7 @@ for (var i = 0; i < colorTags.length; i++){
 // When we click on send-color-button we change the elements displayed at the screen. 
 document.querySelector("#send-colors-button").onclick=function(e){
 
-	if (document.getElementById('running-game').style.display=="none"){
+	if (tabla[0].style.display=="none"){
 		SendMySecuence("ColorSelection","You secuence was sent correctly. Wait for the other player");
 		reset();
 	}
@@ -203,10 +231,8 @@ function addColum(sequence,cows,bulls,tbodyOption){
 
 function checkWinner(bulls,playerGuessing){
 	if (bulls==4){
-		alert(playerGuessing + " win");
+		alert(playerGuessing + " win!");
 		setTimeout(changePage, 1000);
-		 ;
-
 	}
 }
 
@@ -228,23 +254,29 @@ function changePage(){
 
 	//Recibir secuencia y mostrarla en la tabla correspondiente X
 
-	//Dar un tiempo después de que se confirme que hay un ganador para volver a base.html
+	//Dar un tiempo después de que se confirme que hay un ganador para volver a base.html X
+
+	//quitar el test X
+
+	//Dar estilos a cada vista X
 
 	//Hacer validacion del id
 
-	//Annadir funcion onclose para volver a la vista create_game.html
+	//Annadir funcion onclose para volver a la vista create_game.html 
 
-	//Dar estilos a cada vista 
+
 	
 	//agregar explicacion del juego
-
-	//quitar el test
 
 	//cambiar next por send
 
 	//cambiar texto en running game para mostrar que lo que se debe es adivinar
 
 	//cuando ganas primero tiene qu salir la secuencia correcta en el historial
+
+	//mover el css y el js a archivos static
+
+	//usar overflow para las tablas
 
 
 </script>

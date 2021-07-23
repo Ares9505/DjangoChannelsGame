@@ -3,6 +3,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Coming+Soon" />
 	<title>
 	{% block tittle  %}
 		Lobby de Vacas y toros
@@ -10,20 +11,34 @@
 	</title>
 	
 <style>
+*{
+	font-family: Coming Soon, Monospace;
+}
+
+
 .btn-group{
 	margin: 10px 10px;
 }
 .btn{
+	margin-top: 5px;
 	text-decoration: none;
 	border: 1px solid gray;
 	border-radius: 2px;
 	color: black;
 	padding: 2px 5px;
-	background-color: aquamarine;
+	background-color: lightgray;
+	width:49%;
+	display: inline;
+}
+.btn:hover{
+	background-color: gray;
+	border:1px solid black;
 }
 
 .form{
-	display: inline-block;
+	display: block;
+	width: 	33.3%;
+	margin: auto;
 	text-align: center;
 	padding-top: 20px;
 }
@@ -34,18 +49,12 @@
 
 }
 
-#color-selection{
-	width: 40%;
-	border: 1px solid gray;
-	border-radius: 5px;
+#sequence-selection{
+	margin-left: 5%;
+	margin-right: 5%;
+	float: left;
+	text-align: center;
 }
-
-.color-sequence{
-	width: 40%;
-	border: 1px solid gray;
-	border-radius: 5px;
-}
-
 
 .color-box{
 	display: inline-block;
@@ -56,19 +65,28 @@
 	border-radius: 5px;
 }
 
-.opponent-table{
-	float: right;
+
+table{
+	width:100%;
+	border-collapse: collapse;
+
 }
 
-.my-table{
-	float: left;
+th,td{
+	border: 1px solid gray;
+	overflow: auto;
 }
 
-h2{
-	padding: 0;
-	margin: 0;
-}
 
+.running-game{
+	border: 1px solid black;
+	border-radius: 5px;
+	height: 300px;
+	margin-top: 40px;
+	float:left;
+	width: 30%;
+
+}
 
 </style>
 
@@ -77,18 +95,15 @@ h2{
 	{% block content %}
 	<div class="form">
 		<h1>4 Colors Game</h1>
-		<form action="" method="Post">
 		<input id="name-input" style= "margin: 5px auto;"type="text" placeholder="Name" required>
 		<div class="btn-group">
 			<input id="btn-create" class="btn" type="button" value="Create">
 			<input id="btn-join" class="btn" type="button" value="Join">
 		</div>
+	<p id="name-valid" style="background-color: red; color: white;"></p>
 	</div>
-	</form>
 
-	<input type="buton" value="Test" onclick="SendColorSelection">
-
-	<p id="game-id" hidden>{{game_id}}</p>
+	
 
 	<script>
 		document.querySelector('#name-input').focus();
@@ -96,8 +111,15 @@ h2{
 
 		document.querySelector('#btn-create').onclick=function(e){
 			var Name = document.querySelector('#name-input').value;
-			var game_id= document.getElementById('game-id').innerHTML;
-			window.location.pathname = '/game/create/'+ Name +'/' + game_id ;
+			console.log(Name);
+			if (Name==""){
+				document.getElementById('name-valid').innerHTML="You most enter your name";
+			}
+			else{
+				var game_id= "{{game_id}}";
+				window.location.pathname = '/game/create/'+ Name +'/' + game_id ;
+				}
+
 		};
 
 		document.querySelector('#btn-join').onclick=function(e){
