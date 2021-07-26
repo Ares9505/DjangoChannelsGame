@@ -24,14 +24,15 @@ def Create_game(request,player,game_id):
 def Join_game(request,player):
 	if request.method == "POST":
 		game_id = request.POST.get("game_id")
-		#Need add validation for game id
-		#This part is made supossing rigth input
-		game  = Game.objects.get(game_id=game_id)
-		game.player2=player
-		game.save()
-		Name=game.player1
-		return redirect('/game/create/'+ Name +'/' + game_id + '?twoplayers')
-	
+		try:
+			game  = Game.objects.get(game_id=game_id)
+			game.player2=player
+			game.save()
+			Name=game.player1
+			return redirect('/game/create/'+ Name +'/' + game_id + '?twoplayers')
+		except:
+			return render(request, 'join.html', {"novalido": "novalido"})
+
 	if request.method == "GET":	
 		return render(request, 'join.html')
 

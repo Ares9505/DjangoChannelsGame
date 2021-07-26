@@ -190,7 +190,7 @@ function SendMySecuence(eventType,smsValidation) {
 		gameSocket.send(JSON.stringify(data));
 
 		//validation positive 
-		document.querySelector('#send-color-validation').style.color="green";
+		document.querySelector('#send-color-validation').style="color:green; background-color: white;";
 		document.querySelector('#send-color-validation').innerHTML=smsValidation;
 
 	}
@@ -260,19 +260,21 @@ function changePage(){
 
 	//Dar estilos a cada vista X
 
-	//Hacer validacion del id
+	//Hacer validacion del id X
 
-	//Annadir funcion onclose para volver a la vista create_game.html 
+	//cambiar next por send X
 
+	//Agreagr funcion para mantener la vista en la pagina cuando se reacrage (onload) 
 
+	//Que gane el que menos movientos uso
 	
 	//agregar explicacion del juego
 
-	//cambiar next por send
+
 
 	//cambiar texto en running game para mostrar que lo que se debe es adivinar
 
-	//cuando ganas primero tiene qu salir la secuencia correcta en el historial
+	//cuando ganas primero tiene que salir la secuencia correcta en el historial
 
 	//mover el css y el js a archivos static
 
