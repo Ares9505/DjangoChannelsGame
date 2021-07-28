@@ -26,6 +26,7 @@ class GameConsumer(AsyncWebsocketConsumer):
     # Receive message from WebSocket
     async def receive(self, text_data):
 
+
         response = json.loads(text_data)
         event    = response.get("event", None)
         message  = response.get("message", None)
@@ -56,21 +57,22 @@ class GameConsumer(AsyncWebsocketConsumer):
             gameid=message['gameid']
             secuence=message['secuence']
             player=message['player']
-
-            cows_bulls=await self.check_gueesing(gameid,player,secuence)
-            playerName=await self.get_player_name(gameid,player)
+            moves=message['moves']
+            [cows, bulls, winner]=await self.check_gueesing(gameid,player,secuence,moves)
             await self.channel_layer.group_send(self.game_group_name,{
                     'type': 'send_message',
                     'message': {
                         'player': player,#to now who attemp to guees
-                        'cows': cows_bulls[0],
-                        'bulls': cows_bulls[1],
+                        'cows': cows,
+                        'bulls': bulls,
                         'secuence': secuence,
-                        'playerName': playerName
+                        'winner': winner,
+                        'moves': moves, 
                     },
                     'event' : "ColorGuees"
                 })
-  
+
+            
 
     async def send_message(self,res):
         await self.send(text_data=json.dumps({
@@ -98,24 +100,36 @@ class GameConsumer(AsyncWebsocketConsumer):
 
 
     @database_sync_to_async
-    def check_gueesing(self,gameid,player,secuence):
+    def check_gueesing(self,gameid,player,secuence,moves):
         game=Game.objects.get(game_id=gameid)
+        winner = "None"
         if player==1:
             db_secuence=game.player2_color_selection
         else:
             db_secuence=game.player1_color_selection
-        return cows_bulls(secuence,db_secuence)
+        [cows, bulls]=cows_bulls(secuence,db_secuence)
+        
+        
+        if bulls==4:
 
+            if player==1:
+                game.player1_moves=moves
+            else:
+                game.player2_moves=moves
 
-    @database_sync_to_async
-    def get_player_name(self,gameid,player):
-        game=Game.objects.get(game_id=gameid)
-        if(player==1):
-            name=game.player1
-        else:
-            name=game.player2
-        return name
-                
+            game.save()
+
+            if game.player1_moves!=0 and game.player2_moves!=0:
+
+                if game.player1_moves<game.player2_moves:
+                    winner = game.player1
+                elif game.player1_moves>game.player2_moves:
+                    winner = game.player2
+                else:
+                    winner = "Draw"
+            
+        return [cows, bulls , winner]
+
 
 def cows_bulls(secuence,db_secuence):
     bulls=0

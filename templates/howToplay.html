@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block tittle  %}
+	Create Game
+{% endblock  %}
+
+{% block content %}
+	<div class="form">
+		<h1 style="color: lightblue;">How to play?</h1>
+	<p style="text-align: left;">
+		The game consist in guees the other player color sequence  using the minium amount of attemps. For each guessing yo do, 
+		you will now how much colors are in the other player sequence but not at the rigth place <b>(cows)  
+		</b> and how much colors are in the other player sequence and at the rigth place <b>(bull)</b>. Good Luck!!
+	</p>
+	<a href="{% url 'home' %}" class="btn" >Back</a>
+</div>
+{% endblock %}

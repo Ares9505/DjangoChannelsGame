@@ -37,3 +37,5 @@ def Join_game(request,player):
 		return render(request, 'join.html')
 
 
+def howToPlay(request):
+	return render(request, 'howToPlay.html')

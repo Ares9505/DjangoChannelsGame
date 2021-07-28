@@ -7,8 +7,8 @@ class Game(models.Model):
 	game_id = models.IntegerField()
 	player1_color_selection= models.CharField( max_length=50)
 	player2_color_selection= models.CharField( max_length=50)
-	
-
+	player1_moves = models.IntegerField(default=0)
+	player2_moves = models.IntegerField(default=0)
 
 	def __str__(self):
 		return str(self.game_id)

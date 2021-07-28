@@ -100,16 +100,19 @@ gameSocket.onmessage=function (e){
 		};
 	};
 	
-
 	// This code is related to the javascript code of select_secuence.html
 	// When 2 player send the secuence change the view to running game cause payload["message"] will by true
 	if(payload["event"] == "ColorSelection"){
 		if(payload["message"] == "True"){
+			reset();
 			tabla[0].style.display="inline-block";
 			tabla[1].style.display="inline-block";
+			document.querySelector('#send-colors-button').style.display="block";
+			document.querySelector('#clear-colors-button').style.display="block";
+			document.querySelector('#color-selection').style.display="block";
+			document.getElementById('h1-tittle').innerHTML="Color Guessing"
 			document.querySelector('#send-color-validation').innerHTML="";
 		}
-
 	}
 
 
@@ -119,19 +122,30 @@ gameSocket.onmessage=function (e){
 		secuence 		= payload["message"]["secuence"].split(",");
 		cows     		= payload["message"]["cows"];
 		bulls    		= payload["message"]["bulls"];
-		playerGuessing  = payload["message"]["playerName"];
 		playerNumber	= payload["message"]["player"];
-		tbodyOption=( playerNumber == player )? tbodyOption=document.getElementById("my-tbody") : tbodyOption=document.getElementById("opponent-tbody");
+		winner			= payload["message"]["winner"];
+		moves_db 			= payload["message"]["moves"];
+		if ( playerNumber == player ){
+			tbodyOption=tbodyOption=document.getElementById("my-tbody");				
+		}
+		else{
+			tbodyOption=document.getElementById("opponent-tbody");
+			
+		}
 		addColum(secuence,cows,bulls,tbodyOption);
-		checkWinner(bulls,playerGuessing);
-	}			
+		checkPlayerEnd(bulls,playerNumber,moves_db);
+		checkWinner(winner);	
+	}
+				
 };
 
+//Sequece selection////////////////////
 
 // globals variables
 let selectedSecuenceIndex = [];
 let colorTags = document.getElementsByClassName('pick-box');
 const colorSelectTags=document.querySelectorAll('.color-select');
+let moves=0;
 
 
 // For each color tag I add and event listener that will hear a click event. When this event take place the arrow function event=> is activated. 
@@ -159,17 +173,14 @@ for (var i = 0; i < colorTags.length; i++){
 	);
 } 
 
-
 // When we click on send-color-button we change the elements displayed at the screen. 
 document.querySelector("#send-colors-button").onclick=function(e){
 
 	if (tabla[0].style.display=="none"){
 		SendMySecuence("ColorSelection","You secuence was sent correctly. Wait for the other player");
-		reset();
 	}
 	else{
-		SendMySecuence("ColorGuees","");
-		reset();
+		SendMySecuence("ColorGuees","");		
 	}
 	
 };
@@ -178,13 +189,17 @@ function SendMySecuence(eventType,smsValidation) {
 	if (selectedSecuenceIndex.length ==4){
 		player=(gameReady)? 2 : 1;
 		selectedSecuenceIndex=selectedSecuenceIndex.join(",");
+		if (eventType=="ColorGuees"){
+			moves+=1;			
+		}
 
 		data={
 			"event": eventType,
 			"message": {
 				"gameid": game_id,// game_id were created in create.html javascript and it is a global variable
 				"player": player,
-				"secuence":selectedSecuenceIndex
+				"secuence":selectedSecuenceIndex,
+				"moves": moves
 			}
 		}
 		gameSocket.send(JSON.stringify(data));
@@ -193,9 +208,19 @@ function SendMySecuence(eventType,smsValidation) {
 		document.querySelector('#send-color-validation').style="color:green; background-color: white;";
 		document.querySelector('#send-color-validation').innerHTML=smsValidation;
 
+		if (eventType=="ColorGuees"){
+			reset();			
+		}
+		else{
+			document.querySelector('#send-colors-button').style.display="none";
+			document.querySelector('#clear-colors-button').style.display="none";
+			document.querySelector('#color-selection').style.display="none";
+		}
+		
 	}
 	else{
 		//validation negative
+		document.querySelector('#send-color-validation').innerHTML="You most select 4 colors";
 		document.querySelector('#send-color-validation').style.color="red";
 	}
 }
@@ -205,9 +230,9 @@ function reset(){
 	for (i of colorSelectTags){
 		i.style.backgroundColor="white";
 	}
-
 }
-//function to add colum in selected tbody with sequence color, bull and cows information  
+
+//function to add colum in selected tbody with sequence color, bulls and cows information  
 function addColum(sequence,cows,bulls,tbodyOption){
 	let trTag = document.createElement("tr");
 	let thTag=[];
@@ -229,18 +254,35 @@ function addColum(sequence,cows,bulls,tbodyOption){
 	tbodyOption.appendChild(trTag);
 }
 
-function checkWinner(bulls,playerGuessing){
-	if (bulls==4){
-		alert(playerGuessing + " win!");
-		setTimeout(changePage, 1000);
+function checkPlayerEnd(bulls,playerNumber,moves_db){
+	if (bulls==4 && playerNumber == player){
+		document.getElementById('send-color-validation').style.color="green";
+		document.getElementById('send-color-validation').innerHTML=`Congrats!! You find the secuence in ${moves_db} moves. Wait for the other player.`;
+		document.getElementById('send-colors-button').style.display ="none";
+		document.querySelector('#clear-colors-button').style.display="none";
+
+	}
+}
+
+function checkWinner(winner){
+	if (winner != "None"){
+		if (winner == "Draw"){
+			window.alert("Sorry, the game was draw.");
+		}
+		else{
+			window.alert(winner + " wins!!!");
+		}
+		setTimeout( changePage, 1000);			
 	}
 }
 
 function changePage(){
-	window.location.search='';//para que no vaya a inicio con el parametro ?twoplayers 
-	window.location.pathname = '/game/';
-
+	window.location.href="/game/";
 }
+	
+		
+
+
 	
 	//Cambiar procesamiento de la secuencia seleccionada cuando este la vista de runninggame.html X
 	
@@ -264,13 +306,9 @@ function changePage(){
 
 	//cambiar next por send X
 
-	//Agreagr funcion para mantener la vista en la pagina cuando se reacrage (onload) 
-
-	//Que gane el que menos movientos uso
-	
-	//agregar explicacion del juego
-
-
+	//Agregar explicacion del juego X
+ 
+	//Que gane el que menos movientos uso X
 
 	//cambiar texto en running game para mostrar que lo que se debe es adivinar
 
@@ -280,6 +318,7 @@ function changePage(){
 
 	//usar overflow para las tablas
 
+	//Agreagr funcion para mantener la vista en la pagina cuando se reacrage (onload)
 
 </script>
 

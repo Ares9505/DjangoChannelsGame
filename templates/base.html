@@ -15,7 +15,6 @@
 	font-family: Coming Soon, Monospace;
 }
 
-
 .btn-group{
 	margin: 10px 10px;
 }
@@ -27,7 +26,7 @@
 	color: black;
 	padding: 2px 5px;
 	background-color: lightgray;
-	width:49%;
+	width: 100%;
 	display: inline;
 }
 .btn:hover{
@@ -50,8 +49,9 @@
 }
 
 #sequence-selection{
-	margin-left: 5%;
-	margin-right: 5%;
+	margin-left: 3%;
+	margin-right: 3%;
+	width: 30%;
 	float: left;
 	text-align: center;
 }
@@ -76,7 +76,7 @@ th,td{
 
 }
 
-
+/*Class related to both tables*/
 .running-game{
 	border: 1px solid black;
 	border-radius: 5px;
@@ -104,7 +104,8 @@ th,td{
 			<input id="btn-create" class="btn" type="button" value="Create">
 			<input id="btn-join" class="btn" type="button" value="Join">
 		</div>
-		<a href="howToPlay.html" target="blank"></a>
+		<br>
+		<a href="{% url  'how' %}" target="blank">How to play? </a>
 	<p id="name-valid" style="background-color: red; color: white;"></p>
 	</div>
 
@@ -112,7 +113,6 @@ th,td{
 
 	<script>
 		document.querySelector('#name-input').focus();
-
 
 		document.querySelector('#btn-create').onclick=function(e){
 			var Name = document.querySelector('#name-input').value;
