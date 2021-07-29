@@ -5,7 +5,8 @@ Django channels 3
 memurai server https://www.memurai.com/get-memurai
 
 
-How to install:
+How to install?
+Tap in terminal the following comands:
 python -m venv myvenv
 pip install django
 pip install -U channels
