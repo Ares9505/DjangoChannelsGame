@@ -42,7 +42,6 @@
 
 		document.querySelector('#btn-create').onclick=function(e){
 			var Name = document.querySelector('#name-input').value;
-			console.log(Name);
 			if (Name==""){
 				document.getElementById('name-valid').innerHTML="You most enter your name";
 			}
@@ -54,8 +53,13 @@
 		};
 
 		document.querySelector('#btn-join').onclick=function(e){
-			var Name = document.querySelector('#name-input').value;
-			window.location.pathname = '/game/join/'+ Name + '/' ;
+			if (Name==""){
+				document.getElementById('name-valid').innerHTML="You most enter your name";
+			}
+			else{
+				var Name = document.querySelector('#name-input').value;
+				window.location.pathname = '/game/join/'+ Name + '/' ;
+			}
 		};
 
 

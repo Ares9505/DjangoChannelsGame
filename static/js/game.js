@@ -213,14 +213,15 @@ function checkWinner(winner){
 
 		document.getElementById("color-selection").style.display = "none";
 		document.getElementById("color-sequence").style.display = "none";
-
+		sms="Redirect in 3 seconds."
 		if (winner == "Draw"){
-			document.getElementById("validation-error").innerHTML="Sorry, the game was draw. You use the same amount of moves.";
+			
+			document.getElementById("send-color-validation").innerHTML = "Sorry, the game was draw. You use the same amount of moves. " +sms;
 		}
 		else{
-			document.getElementById("validation-error").innerHTML= winner + " wins!!!";
+			document.getElementById("send-color-validation").innerHTML = winner + " wins!!! " + sms;
 		}
-		setTimeout( changePage, 1000);			
+		setTimeout( changePage, 5000);			
 	}
 }
 
